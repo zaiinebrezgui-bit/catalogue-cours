@@ -17,6 +17,7 @@
       }
       <p>Durée : {{ c.duree }}</p>
       <p>Places disponibles : {{ c.places | placesRestantes:10 }}</p>
+      <a [routerLink]="['/cours', c.id]">Voir les détails</a>
     </article>
   }
   @empty {
