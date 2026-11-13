@@ -1,22 +1,28 @@
 @if (cours) {
   <h1>Inscription : {{ cours.titre }}</h1>
   @if (confirmation) {
-    <p class="succes">{{ confirmation }}</p>
-  }
+  <p class="succes">{{ confirmation }}</p>
+  <a routerLink="/mes-inscriptions">Voir mes inscriptions</a>
+}
+@else if (inscriptions.estInscrit(cours.id)) {
+  <p class="succes">Vous êtes déjà inscrit à ce cours.</p>
+  <a routerLink="/mes-inscriptions">Voir mes inscriptions</a>
+}
+@else {
   <form [formGroup]="form" (ngSubmit)="envoyer()" novalidate>
     <div class="champ">
       <label for="nom">Nom complet</label>
       <input id="nom" formControlName="nom">
       @if (nom.invalid && nom.touched) {
         <p class="erreur">
-                @if (nom.invalid && nom.touched) {
-        <p class="erreur">
-          @if (nom.errors?.['required']) { Le nom est obligatoire. }
-          @else if (nom.errors?.['nomComplet']) { Indiquez votre prénom et votre nom. }
-        </p>
-    }
-        </p>
+        @if (nom.errors?.['required']) {
+          Le nom est obligatoire.
+        }
+      @else if (nom.errors?.['nomComplet']) {
+        Indiquez votre prénom et votre nom.
       }
+  </p>
+}
     </div>
     <div class="champ">
       <label for="email">Adresse e-mail</label>
@@ -67,7 +73,7 @@
     </div>
     <button type="submit">Valider mon inscription</button>
   </form>
-} @else {
+}} @else {
   <p>Ce cours n'existe pas.</p>
 }
 <a routerLink="/cours">← Retour au catalogue</a>
